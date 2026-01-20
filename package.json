@@ -1,0 +1,22 @@
+{
+  "name": "laughing-garbanzo",
+  "version": "0.1.0",
+  "description": "A game for learning state synchronization and the canvas in JavaScript",
+  "main": "./server",
+  "scripts": {
+    "start": "node ./server",
+    "dev": "nodemon ./server",
+    "test": "jest"
+  },
+  "author": "Joe Granville",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "eslint": "^9.20.0"
+  }
+}
