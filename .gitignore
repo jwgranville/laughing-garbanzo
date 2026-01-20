@@ -1,0 +1,26 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime files
+pids/
+*.pid
+*.seed
+
+# Build directories (if you use bundlers like Webpack)
+dist/
+build/
+
+# Environment variables
+.env
+
+# VS Code files
+.vscode/
+
+# Mac / OS files
+.DS_Store
+._*
