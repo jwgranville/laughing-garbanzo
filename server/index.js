@@ -15,11 +15,19 @@ const { createWebSocketServer } = require('./websocket');
 const { findProjectRoot } = require(path.join(__dirname, '..', 'infrastructure', 'findProjectRoot'));
 const { getExternalIPAddresses } = require(path.join(__dirname, '..', 'infrastructure', 'network'));
 
+const Session = require('./domain-model/Session');
+const TextItem = require('./domain-model/TextItem');
+
 const projectRoot = findProjectRoot();
 
 const app = createHTTPServer({ projectRoot });
 const server = http.createServer(app);
-createWebSocketServer(server);
+
+const session = new Session('session-1');
+const textItem = new TextItem('text-1', '');
+session.addDomainObject(textItem);
+
+createWebSocketServer(server, session);
 
 const PORT = process.env.PORT || 3000;
 const addresses = getExternalIPAddresses();

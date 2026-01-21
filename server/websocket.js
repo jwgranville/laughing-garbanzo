@@ -7,19 +7,37 @@
  * @status Proof-of-concept
  */
 
-function createWebSocketServer(server) {
-  const WebSocket = require('ws');
+const WebSocket = require('ws');
+const Session = require('./domain-model/Session');
+const TextItem = require('./domain-model/TextItem');
+
+function createWebSocketServer(server, session) {
   const webSocketServer = new WebSocket.Server({ server });
   
   webSocketServer.on('connection', (ws) => {
+    session.subscribe(ws);
+    
     ws.on('message', (msg) => {
       webSocketServer.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) client.send(msg);
+        let data;
+        try {
+          data = JSON.parse(msg);
+        } catch (err) {
+          console.error('Invalid JSON', msg);
+          return;
+        }
+        
+        if (data.command === 'updateText' && data.objId) {
+          const obj = session.domainObjects.get(data.objId);
+          if (obj && obj.updateText) {
+            obj.updateText(data.value);
+          }
+        }
       });
     });
-    
-    return ws;
   });
+  
+  return webSocketServer;
 }
 
 module.exports = { createWebSocketServer };

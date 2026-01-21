@@ -5,6 +5,31 @@
   <title>Laughing Garbanzo</title>
 </head>
 <body>
-  <h1>Server is running!</h1>
+
+  Server is running!
+  
+  <input id="text" placeholder="Type here..." />
+
+  <script>
+    console.log('script is running');
+    const ws = new WebSocket(`ws://${location.host}`);
+    const input = document.getElementById('text');
+
+    input.addEventListener('input', e => {
+      ws.send(JSON.stringify({
+        command: 'updateText',
+        objId: 'text-1',
+        value: e.target.value
+      }));
+    });
+
+    ws.onmessage = e => {
+      const msg = JSON.parse(e.data);
+      if (msg.type === 'updateText') {
+        if (input.value !== msg.value) input.value = msg.value;
+      }
+    };
+  </script>
+
 </body>
 </html>
