@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-20T16:29:21+00:00
+ * @date 2026-01-22T03:59:00+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -17,6 +17,7 @@ const { getExternalIPAddresses } = require(path.join(__dirname, '..', 'infrastru
 
 const Session = require('./domain-model/Session');
 const TextItem = require('./domain-model/TextItem');
+const PrimitiveStroke = require('./domain-model/canvas/PrimitiveStroke');
 
 const projectRoot = findProjectRoot();
 
@@ -26,6 +27,11 @@ const server = http.createServer(app);
 const session = new Session('session-1');
 const textItem = new TextItem('text-1', '');
 session.addDomainObject(textItem);
+const stroke = new PrimitiveStroke(
+  'stroke-1',
+  { x1: 100, y1: 100, x2: 200, y2: 200, color: 'black', width: 2 }
+);
+session.addDomainObject(stroke);
 
 createWebSocketServer(server, session);
 

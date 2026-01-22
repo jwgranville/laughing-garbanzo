@@ -3,18 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Laughing Garbanzo</title>
+  <style>
+    canvas { border: 1px solid black; }
+  </style>
 </head>
 <body>
 
-  Server is running!
+  <p>Server is running!</p>
   
-  <input id="text" placeholder="Type here..." />
+  <p><input id="text" placeholder="Type here..." /></p>
+  
+  <p><canvas id="canvas" width="600" height="400"></canvas></p>
 
   <script>
     console.log('script is running');
+    
     const ws = new WebSocket(`ws://${location.host}`);
+    
     const input = document.getElementById('text');
-
     input.addEventListener('input', e => {
       ws.send(JSON.stringify({
         command: 'updateText',
@@ -22,11 +28,73 @@
         value: e.target.value
       }));
     });
+    
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const strokes = {
+      'stroke-1': {
+        x1: 100, y1: 100, x2: 200, y2: 200, color: 'black', width: 2
+      }
+    };
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      Object.values(strokes).forEach(stroke => {
+        ctx.strokeStyle = stroke.color || 'black';
+        ctx.lineWidth = stroke.width || 1;
+        ctx.beginPath();
+        ctx.moveTo(stroke.x1, stroke.y1);
+        ctx.lineTo(stroke.x2, stroke.y2);
+        ctx.stroke();
+      });
+    }
+    draw();
+    let dragging = false;
+    let lastPosition = null;
+    let selectedId = 'stroke-1';
+    canvas.addEventListener('mousedown', e => {
+      dragging = true;
+      lastPosition = { x: e.offsetX, y: e.offsetY };
+    });
+    canvas.addEventListener('mouseup', () => {
+      dragging = false;
+      lastPosition = null;
+    });
+    canvas.addEventListener('mousemove', e => {
+      if (!dragging || !lastPosition) return;
+      const dx = e.offsetX - lastPosition.x;
+      const dy = e.offsetY - lastPosition.y;
+      ws.send(JSON.stringify({
+        command: 'move',
+        objId: selectedId,
+        dx,
+        dy
+      }));
+      lastPosition = { x: e.offsetX, y: e.offsetY };
+    });
 
     ws.onmessage = e => {
       const msg = JSON.parse(e.data);
+      
+      if (msg.type === 'move' && msg.objId === selectedId) {
+        const stroke = strokes[selectedId];
+        if (!stroke) return;
+        stroke.x1 = msg.x1;
+        stroke.y1 = msg.y1;
+        stroke.x2 = msg.x2;
+        stroke.y2 = msg.y2;
+        draw();
+      }
+      
       if (msg.type === 'updateText') {
-        if (input.value !== msg.value) input.value = msg.value;
+        const input = document.getElementById('text');
+        if (input.value !== msg.value) {
+          input.value = msg.value;
+        }
+      }
+      
+      if (msg.type === 'stateInitialization') {
+        strokes[msg.objId] = msg.state.stroke;
+        draw();
       }
     };
   </script>

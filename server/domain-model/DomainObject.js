@@ -20,6 +20,10 @@ class DomainObject {
   _emitChange(event) {
     this.listeners.forEach(l => l(event));
   }
+  
+  toJSON() {
+    return { id: this.id };
+  }
 }
 
 module.exports = DomainObject;

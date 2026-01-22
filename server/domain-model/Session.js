@@ -26,6 +26,12 @@ class Session {
   
   subscribe(client) {
     this.subscribers.add(client);
+    
+    for (const obj of this.domainObjects.values()) {
+      client.send(JSON.stringify({
+        type: 'stateInitialization', objId: obj.id, state: obj.toJSON()
+      }));
+    }
   }
   
   _broadcast(objId, event) {

@@ -19,6 +19,10 @@ class TextItem extends DomainObject {
     this.text = newText;
     this._emitChange({ type: 'updateText', value: newText });
   }
+  
+  toJSON() {
+    return { id: this.id, text: this.text };
+  }
 }
 
 module.exports = TextItem;

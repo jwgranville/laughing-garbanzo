@@ -18,22 +18,27 @@ function createWebSocketServer(server, session) {
     session.subscribe(ws);
     
     ws.on('message', (msg) => {
-      webSocketServer.clients.forEach((client) => {
-        let data;
-        try {
-          data = JSON.parse(msg);
-        } catch (err) {
-          console.error('Invalid JSON', msg);
-          return;
+      let data;
+      try {
+        data = JSON.parse(msg);
+      } catch (err) {
+        console.error('Invalid JSON', msg);
+        return;
+      }
+      
+      if (data.command === 'updateText' && data.objId) {
+        const obj = session.domainObjects.get(data.objId);
+        if (obj && obj.updateText) {
+          obj.updateText(data.value);
         }
-        
-        if (data.command === 'updateText' && data.objId) {
-          const obj = session.domainObjects.get(data.objId);
-          if (obj && obj.updateText) {
-            obj.updateText(data.value);
-          }
+      }
+      
+      if (data.command === 'move' && data.objId) {
+        const obj = session.domainObjects.get(data.objId);
+        if (obj && obj.move) {
+          obj.move(data.dx, data.dy);
         }
-      });
+      }
     });
   });
   
