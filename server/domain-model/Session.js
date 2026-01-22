@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-21T17:34:00+00:00
+ * @date 2026-01-22T19:26:44+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -29,7 +29,9 @@ class Session {
     
     for (const obj of this.domainObjects.values()) {
       client.send(JSON.stringify({
-        type: 'stateInitialization', objId: obj.id, state: obj.toJSON()
+        type: 'stateInitialization',
+        objId: obj.id,
+        state: obj.toJSON()
       }));
     }
   }

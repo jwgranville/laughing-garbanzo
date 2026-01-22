@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Laughing Garbanzo</title>
+  <!-- Project metadata -->
+  <meta name="author" content="Joe Granville">
+  <meta name="date" content="2026-01-22T21:51:52+00:00">
+  <meta name="email" content="874605+jwgranville@users.noreply.github.com">
+  <meta name="version" content="0.1.0">
+  <meta name="license" content="MIT">
+  <meta name="status" content="Proof-of-concept">
   <style>
     canvas { border: 1px solid black; }
   </style>
@@ -31,11 +38,7 @@
     
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    const strokes = {
-      'stroke-1': {
-        x1: 100, y1: 100, x2: 200, y2: 200, color: 'black', width: 2
-      }
-    };
+    const strokes = {};
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       Object.values(strokes).forEach(stroke => {
@@ -50,7 +53,7 @@
     draw();
     let dragging = false;
     let lastPosition = null;
-    let selectedId = 'stroke-1';
+    let selectedId = null;
     canvas.addEventListener('mousedown', e => {
       dragging = true;
       lastPosition = { x: e.offsetX, y: e.offsetY };
@@ -63,6 +66,14 @@
       if (!dragging || !lastPosition) return;
       const dx = e.offsetX - lastPosition.x;
       const dy = e.offsetY - lastPosition.y;
+      const stroke = strokes[selectedId];
+      if (stroke) {
+        stroke.x1 += dx;
+        stroke.y1 += dy;
+        stroke.x2 += dx;
+        stroke.y2 += dy;
+        draw();
+      }
       ws.send(JSON.stringify({
         command: 'move',
         objId: selectedId,
@@ -73,15 +84,17 @@
     });
 
     ws.onmessage = e => {
+      console.log('ws message:', e.data);
       const msg = JSON.parse(e.data);
       
       if (msg.type === 'move' && msg.objId === selectedId) {
         const stroke = strokes[selectedId];
         if (!stroke) return;
-        stroke.x1 = msg.x1;
-        stroke.y1 = msg.y1;
-        stroke.x2 = msg.x2;
-        stroke.y2 = msg.y2;
+        const alpha = 0.2;
+        stroke.x1 += (msg.x1 - stroke.x1) * alpha;
+        stroke.y1 += (msg.y1 - stroke.y1) * alpha;
+        stroke.x2 += (msg.x2 - stroke.x2) * alpha;
+        stroke.y2 += (msg.y2 - stroke.y2) * alpha;
         draw();
       }
       
@@ -92,8 +105,14 @@
         }
       }
       
-      if (msg.type === 'stateInitialization') {
+      if (msg.type === 'stateInitialization' && msg.state.stroke) {
         strokes[msg.objId] = msg.state.stroke;
+        console.log('strokes after stateInitialization', strokes);
+        
+        if (selectedId == null) {
+          selectedId = msg.objId;
+        }
+        
         draw();
       }
     };
