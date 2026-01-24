@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-22T19:26:44+00:00
+ * @date 2026-01-23T04:00:27+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,6 +8,7 @@
  */
 
 const DomainObject = require('./DomainObject');
+const { DomainEvents } = require('./events');
 
 class TextItem extends DomainObject {
   constructor(id, initialText = '') {
@@ -17,7 +18,7 @@ class TextItem extends DomainObject {
   
   updateText(newText) {
     this.text = newText;
-    this._emitChange({ type: 'updateText', value: newText });
+    this._emitChange({ type: DomainEvents.UPDATE_TEXT, value: newText });
   }
   
   toJSON() {
@@ -26,9 +27,9 @@ class TextItem extends DomainObject {
   
   updateFromJSON(json) {
     super.updateFromJSON(json)
-    if (json.stroke) {
-      this.stroke = { ...json.stroke };
-      this._emitChange({ type: 'updateStroke', stroke: this.stroke });
+    if (typeof json.text === 'string' && json.text !== this.text) {
+      this.text = json.text;
+      this._emitChange({ type: DomainEvents.UPDATE_TEXT, value: this.text });
     }
   }
 }

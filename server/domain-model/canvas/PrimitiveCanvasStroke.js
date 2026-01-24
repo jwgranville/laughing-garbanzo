@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-22T19:26:44+00:00
+ * @date 2026-01-23T04:01:00+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,15 +8,16 @@
  */
 
 const AbstractCanvasItem = require('./AbstractCanvasItem');
+const { DomainEvents } = require('../events');
 
-class PrimitiveStroke extends AbstractCanvasItem {
+class PrimitiveCanvasStroke extends AbstractCanvasItem {
   constructor(id, stroke) {
     super(id);
     this.stroke = stroke;
   }
   
   addChild() {
-    throw new Error('PrimitiveStroke does not support child items');
+    throw new Error('PrimitiveCanvasStroke does not support child items');
   }
   
   move(dx, dy) {
@@ -25,7 +26,7 @@ class PrimitiveStroke extends AbstractCanvasItem {
     this.stroke.x2 += dx;
     this.stroke.y2 += dy;
     this._emitChange({
-      type: 'move',
+      type: DomainEvents.MOVE,
       x1: this.stroke.x1,
       y1: this.stroke.y1,
       x2: this.stroke.x2,
@@ -47,4 +48,4 @@ class PrimitiveStroke extends AbstractCanvasItem {
   }
 }
 
-module.exports = PrimitiveStroke;
+module.exports = PrimitiveCanvasStroke;

@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-21T23:27:30+00:00
+ * @date 2026-01-24T02:12:35+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -9,6 +9,7 @@
 
 const CompositeCanvasItem = require('../../server/domain-model/canvas/CompositeCanvasItem');
 const AbstractCanvasItem = require('../../server/domain-model/canvas/AbstractCanvasItem');
+const { DomainEvents } = require('../../server/domain-model/events');
 
 class MockPrimitive extends AbstractCanvasItem {
   constructor(id) {
@@ -24,7 +25,7 @@ class MockPrimitive extends AbstractCanvasItem {
     this.position.x += dx;
     this.position.y += dy;
     this._emitChange({
-      type: 'move',
+      type: DomainEvents.MOVE,
       dx,
       dy
     });
@@ -70,7 +71,7 @@ describe('CompositeCanvasItem basic opeartions', () => {
     const composite = new CompositeCanvasItem('composite-3');
     const child = new MockPrimitive('child-1');
     
-    composote.addChild(child);
+    composite.addChild(child);
     
     const compositeEvents = [];
     composite.onChange(evt => compositeEvents.push(evt));
@@ -79,10 +80,10 @@ describe('CompositeCanvasItem basic opeartions', () => {
     
     expect(compositeEvents).toHaveLength(1);
     expect(compositeEvents[0]).toMatchObject({
-      type: 'childChange',
+      type: DomainEvents.CHILD_CHANGED,
       childId: 'child-1',
       childEvent: {
-        type: 'move',
+        type: DomainEvents.MOVE,
         dx: 3,
         dy: 4
       }
@@ -99,7 +100,7 @@ describe('CompositeCanvasItem basic opeartions', () => {
     composite.addChild(child);
     
     expect(events).toHaveLength(1);
-    expect(events[0]).toMatchObject({ type: 'addChild', childId: 'child-1'});
+    expect(events[0]).toMatchObject({ type: DomainEvents.ADD_CHILD, childId: 'child-1'});
   });
   
   test('composite emits move events when moved', () => {
@@ -113,7 +114,7 @@ describe('CompositeCanvasItem basic opeartions', () => {
     
     composite.move(1, 2);
     
-    const moveEvent = events.find(e => e.type === 'move');
+    const moveEvent = events.find(e => e.type === DomainEvents.MOVE);
     expect(moveEvent).toMatchObject({ dx: 1, dy: 2 });
   });
 });

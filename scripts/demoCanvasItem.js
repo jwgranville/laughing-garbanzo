@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-22T00:26:38+00:00
+ * @date 2026-01-23T01:11:37+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -20,7 +20,7 @@ const group = new CompositeCanvasItem('group-1');
 group.addChild(stroke1);
 group.addChild(stroke2);
 
-session.addDomainObject(group);
+session.addItem(group);
 
 const mockClient = { send: (msg) => console.log('broadcast:', msg) };
 session.subscribe(mockClient);

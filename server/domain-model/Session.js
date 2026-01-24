@@ -1,11 +1,13 @@
 /**
  * @author Joe Granville
- * @date 2026-01-22T19:26:44+00:00
+ * @date 2026-01-24T02:57:40+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
+
+const { DomainEvents } = require('./events');
 
 class Session {
   constructor(id) {
@@ -15,7 +17,7 @@ class Session {
     this.subscribers = new Set();
   }
   
-  addDomainObject(obj) {
+  addItem(obj) {
     this.domainObjects.set(obj.id, obj);
     obj.onChange(event => this._broadcast(obj.id, event));
   }
@@ -26,14 +28,6 @@ class Session {
   
   subscribe(client) {
     this.subscribers.add(client);
-    
-    for (const obj of this.domainObjects.values()) {
-      client.send(JSON.stringify({
-        type: 'stateInitialization',
-        objId: obj.id,
-        state: obj.toJSON()
-      }));
-    }
   }
   
   _broadcast(objId, event) {

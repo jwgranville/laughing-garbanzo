@@ -5,7 +5,7 @@
   <title>Laughing Garbanzo</title>
   <!-- Project metadata -->
   <meta name="author" content="Joe Granville">
-  <meta name="date" content="2026-01-22T21:51:52+00:00">
+  <meta name="date" content="2026-01-23T04:26:09+00:00">
   <meta name="email" content="874605+jwgranville@users.noreply.github.com">
   <meta name="version" content="0.1.0">
   <meta name="license" content="MIT">
@@ -27,10 +27,16 @@
     
     const ws = new WebSocket(`ws://${location.host}`);
     
+    const DomainEvents = {
+      STATE_INIT: 'stateInitialization',
+      UPDATE_TEXT: 'updateText',
+      MOVE: 'move'
+    };
+    
     const input = document.getElementById('text');
     input.addEventListener('input', e => {
       ws.send(JSON.stringify({
-        command: 'updateText',
+        command: DomainEvents.UPDATE_TEXT,
         objId: 'text-1',
         value: e.target.value
       }));
@@ -75,7 +81,7 @@
         draw();
       }
       ws.send(JSON.stringify({
-        command: 'move',
+        command: DomainEvents.MOVE,
         objId: selectedId,
         dx,
         dy
@@ -87,7 +93,7 @@
       console.log('ws message:', e.data);
       const msg = JSON.parse(e.data);
       
-      if (msg.type === 'move' && msg.objId === selectedId) {
+      if (msg.type === DomainEvents.MOVE && msg.objId === selectedId) {
         const stroke = strokes[selectedId];
         if (!stroke) return;
         const alpha = 0.2;
@@ -98,22 +104,29 @@
         draw();
       }
       
-      if (msg.type === 'updateText') {
+      if (msg.type === DomainEvents.UPDATE_TEXT) {
         const input = document.getElementById('text');
         if (input.value !== msg.value) {
           input.value = msg.value;
         }
       }
       
-      if (msg.type === 'stateInitialization' && msg.state.stroke) {
-        strokes[msg.objId] = msg.state.stroke;
-        console.log('strokes after stateInitialization', strokes);
-        
-        if (selectedId == null) {
-          selectedId = msg.objId;
+      if (msg.type === DomainEvents.STATE_INIT) {
+        if (msg.state.stroke) {
+          strokes[msg.objId] = msg.state.stroke;
+          console.log('strokes after stateInitialization', strokes);
+          
+          if (selectedId == null) {
+            selectedId = msg.objId;
+          }
+          
+          draw();
         }
         
-        draw();
+        if (typeof msg.state.text === 'string' ) {
+          const input = document.getElementById('text');
+          input.value = msg.state.text;
+        }
       }
     };
   </script>
