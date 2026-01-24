@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T02:53:59+00:00
+ * @date 2026-01-24T04:23:49+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,7 +8,7 @@
  */
 
 const WebSocket = require('ws');
-const { DomainEvents } = require('../../server/domain-model/events');
+const { DomainEvents, Commands } = require('../../server/domain-model/events');
 const server = require('./start-test-server');
 
 let httpServer;
@@ -39,7 +39,7 @@ test('client receives initialization before updates', done => {
     clientsReady++;
     if (clientsReady === 2) {
       clientA.send(JSON.stringify({
-        command: DomainEvents.UPDATE_TEXT,
+        command: Commands.UPDATE_TEXT,
         objId: 'text-1',
         value: 'shared'
       }));

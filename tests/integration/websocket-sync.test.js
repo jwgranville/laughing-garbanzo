@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T03:14:16+00:00
+ * @date 2026-01-24T04:19:27+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,6 +8,7 @@
  */
 
 const WebSocket = require('ws');
+const { DomainEvents, Commands } = require('../../server/domain-model/events');
 const server = require('./start-test-server');
 
 let httpServer;
@@ -32,10 +33,10 @@ describe('WebSocket broadcast behavior', () => {
     
     function check(msg) {
       const data = JSON.parse(msg);
-      if (data.type !== 'updateText') return;
+      if (data.type !== DomainEvents.UPDATE_TEXT) return;
       expect(data).toMatchObject({
         objId: 'text-1',
-        type: 'updateText',
+        type: DomainEvents.UPDATE_TEXT,
         value: 'shared'
       });
       received++;
@@ -51,7 +52,7 @@ describe('WebSocket broadcast behavior', () => {
     
     clientA.on('open', () => {
       clientA.send(JSON.stringify({
-        command: 'updateText',
+        command: Commands.UPDATE_TEXT,
         objId: 'text-1',
         value: 'shared'
       }));

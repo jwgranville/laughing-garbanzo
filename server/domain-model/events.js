@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T03:14:16+00:00
+ * @date 2026-01-24T03:35:03+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,18 +8,24 @@
  */
 
 const DomainEvents = {
-  ADD_ITEM: 'addItem',
-  REMOVE_ITEM: 'removeItem',
+  ADD_ITEM: 'domain:addItem',
+  REMOVE_ITEM: 'domain:removeItem',
   
-  STATE_INIT: 'stateInitialization',
+  STATE_INIT: 'domain:stateInitialization',
   
-  UPDATE_TEXT: 'updateText',
+  UPDATE_TEXT: 'domain:updateText',
   
-  MOVE: 'move',
+  MOVE: 'domain:move',
   
-  ADD_CHILD: 'addChild',
-  REMOVE_CHILD: 'removeChild',
-  CHILD_CHANGED: 'childChanged'
+  ADD_CHILD: 'domain:addChild',
+  REMOVE_CHILD: 'domain:removeChild',
+  CHILD_CHANGED: 'domain:childChanged'
 };
 
-module.exports = { DomainEvents };
+const Commands = {
+  UPDATE_TEXT: 'command:updateText',
+  
+  MOVE: 'command:move'
+};
+
+module.exports = { DomainEvents, Commands };

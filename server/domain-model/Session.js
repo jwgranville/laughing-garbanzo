@@ -1,13 +1,11 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T02:57:40+00:00
+ * @date 2026-01-24T03:41:56+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
-
-const { DomainEvents } = require('./events');
 
 class Session {
   constructor(id) {

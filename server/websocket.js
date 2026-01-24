@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T03:03:41+00:00
+ * @date 2026-01-24T04:19:49+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -9,7 +9,7 @@
 
 const WebSocket = require('ws');
 
-const { DomainEvents } = require('./domain-model/events');
+const { DomainEvents, Commands } = require('./domain-model/events');
 
 function createWebSocketServer(server, session, appState) {
   const webSocketServer = new WebSocket.Server({ server });
@@ -42,10 +42,10 @@ function createWebSocketServer(server, session, appState) {
       const item = data.objId ? appState.getItem(data.objId) : null;
       if (!item) return;
       switch (data.command) {
-        case DomainEvents.UPDATE_TEXT:
+        case Commands.UPDATE_TEXT:
           if (item.updateText) item.updateText(data.value);
           break;
-        case DomainEvents.MOVE:
+        case Commands.MOVE:
           if (item.move) item.move(data.dx, data.dy);
           break
         default:
