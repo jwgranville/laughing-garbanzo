@@ -15,6 +15,7 @@ class AppState {
     this.id = id;
     this.items = new Map();
     this.subscribers = new Set();
+    this._sequence = 0;
     
     if (initialState) {
       this.updateFromJSON(initialState);
@@ -72,7 +73,7 @@ class AppState {
   }
   
   _emit(itemId, event) {
-    const message = { itemId, ...event };
+    const message = { sequence: this._sequence++, itemId, ...event };
     this.subscribers.forEach(cb => cb(message));
   }
   
@@ -83,6 +84,15 @@ class AppState {
     }
     
     return result;
+  }
+  
+  snapshot() {
+    return {
+      id: this.id,
+      timestamp: Date.now(),
+      sequence: this._sequence,
+      state: this.toJSON()
+    };
   }
     
   updateFromJSON(json) {
