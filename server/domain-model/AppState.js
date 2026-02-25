@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T03:59:57+00:00
+ * @date 2026-02-25T18:41:31+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,11 +8,12 @@
  */
 
 const DomainObject = require('./DomainObject');
+const Entity = require('./Entity');
 const { DomainEvents } = require('./events');
 
-class AppState {
-  constructor(id, initialState = null) {
-    this.id = id;
+class AppState extends Entity {
+  constructor(entityId, initialState = null) {
+    super(entityId);
     this.items = new Map();
     this.subscribers = new Set();
     this._sequence = 0;
@@ -26,25 +27,25 @@ class AppState {
     if (!(item instanceof DomainObject)) {
       throw new Error('only DomainObject instances can be added');
     }
-    if (this.items.has(item.id)) {
-      throw new Error(`item with id "${item.id}" already exists`);
+    if (this.items.has(item.entityId)) {
+      throw new Error(`item with entityId "${item.entityId}" already exists`);
     }
     
-    this.items.set(item.id, item);
-    item.onChange(event => this._emit(item.id, event));
-    this._emit(item.id, { type: DomainEvents.ADD_ITEM, payload: item.toJSON() });
+    this.items.set(item.entityId, item);
+    item.onChange(event => this._emit(item.entityId, event));
+    this._emit(item.entityId, { type: DomainEvents.ADD_ITEM, payload: item.toJSON() });
   }
   
-  removeItem(itemId) {
-    const item = this.items.get(itemId);
+  removeItem(entityId) {
+    const item = this.items.get(entityId);
     if (item) {
-      this.items.delete(itemId);
-      this._emit(itemId, { type: DomainEvents.REMOVE_ITEM });
+      this.items.delete(entityId);
+      this._emit(entityId, { type: DomainEvents.REMOVE_ITEM });
     }
   }
   
-  getItem(itemId) {
-    return this.items.get(itemId) || null;
+  getItem(entityId) {
+    return this.items.get(entityId) || null;
   }
   
   getAllItems() {
@@ -61,7 +62,7 @@ class AppState {
     this.subscribers.add(callback);
     for (const item of this.items.values()) {
       callback({
-        itemId: item.id,
+        entityId: item.entityId,
         type: DomainEvents.STATE_INIT,
         payload: item.toJSON()
       });
@@ -72,15 +73,15 @@ class AppState {
     this.subscribers.delete(callback);
   }
   
-  _emit(itemId, event) {
-    const message = { sequence: this._sequence++, itemId, ...event };
+  _emit(entityId, event) {
+    const message = { sequence: this._sequence++, entityId, ...event };
     this.subscribers.forEach(cb => cb(message));
   }
   
   toJSON() {
     const result = {};
-    for (const [id, item] of this.items.entries()) {
-      result[id] = item.toJSON();
+    for (const [entityId, item] of this.items.entries()) {
+      result[entityId] = item.toJSON();
     }
     
     return result;
@@ -88,7 +89,7 @@ class AppState {
   
   snapshot() {
     return {
-      id: this.id,
+      entityId: this.entityId,
       timestamp: Date.now(),
       sequence: this._sequence,
       state: this.toJSON()
@@ -96,13 +97,12 @@ class AppState {
   }
     
   updateFromJSON(json) {
-    const result = {};
-    for (const [id, itemState] of Object.entries(json)) {
-      let existing = this.items.get(id);
+    for (const [entityId, itemState] of Object.entries(json)) {
+      let existing = this.items.get(entityId);
       if (existing) {
         existing.updateFromJSON(itemState);
       } else {
-        console.warn(`skipping unknown item id "${id}" in updateFromJSON`);
+        console.warn(`skipping unknown item entityId "${entityId}" in updateFromJSON`);
       }
     }
   }

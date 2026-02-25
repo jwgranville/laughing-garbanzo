@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T02:33:31+00:00
+ * @date 2026-02-25T18:58:18+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -37,7 +37,7 @@ describe('Session domain object synchronization', () => {
     
     expect(msgA).toEqual(msgB);
     expect(msgA).toMatchObject({
-      objId: 'text-1',
+      entityId: 'text-1',
       type: DomainEvents.UPDATE_TEXT,
       value: 'world'
     });

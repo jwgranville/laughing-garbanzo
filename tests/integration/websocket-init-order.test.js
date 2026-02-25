@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T04:23:49+00:00
+ * @date 2026-02-25T18:59:29+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -40,7 +40,7 @@ test('client receives initialization before updates', done => {
     if (clientsReady === 2) {
       clientA.send(JSON.stringify({
         command: Commands.UPDATE_TEXT,
-        objId: 'text-1',
+        entityId: 'text-1',
         value: 'shared'
       }));
     }

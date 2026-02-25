@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T04:00:27+00:00
+ * @date 2026-02-25T06:39:16+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -11,18 +11,18 @@ const DomainObject = require('./DomainObject');
 const { DomainEvents } = require('./events');
 
 class TextItem extends DomainObject {
-  constructor(id, initialText = '') {
-    super(id);
+  constructor(entityId, initialText = '') {
+    super(entityId);
     this.text = initialText;
   }
   
-  updateText(newText) {
-    this.text = newText;
-    this._emitChange({ type: DomainEvents.UPDATE_TEXT, value: newText });
+  updateText(text) {
+    this.text = text;
+    this._emitChange({ type: DomainEvents.UPDATE_TEXT, value: text });
   }
   
   toJSON() {
-    return { id: this.id, text: this.text };
+    return { entityId: this.entityId, text: this.text };
   }
   
   updateFromJSON(json) {

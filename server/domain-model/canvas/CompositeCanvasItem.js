@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T02:45:20+00:00
+ * @date 2026-02-25T18:01:18+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -11,14 +11,14 @@ const AbstractCanvasItem = require('./AbstractCanvasItem');
 const { DomainEvents } = require('../events');
 
 class CompositeCanvasItem extends AbstractCanvasItem {
-  constructor(id) {
-    super(id);
+  constructor(entityId) {
+    super(entityId);
     this.children = [];
   }
   
   addChild(childItem) {
-    if (!childItem || !childItem.id) {
-      throw new Error('child must be an AbstractCanvasItem with an id');
+    if (!childItem || !(childItem instanceof AbstractCanvasItem)) {
+      throw new Error('child must be an AbstractCanvasItem');
     }
     
     this.children.push(childItem);
@@ -26,14 +26,14 @@ class CompositeCanvasItem extends AbstractCanvasItem {
     childItem.onChange((event) => {
       this._emitChange({
         type: DomainEvents.CHILD_CHANGED,
-        childId: childItem.id,
+        childId: childItem.entityId,
         childEvent: event,
       });
     });
     
     this._emitChange({
       type: DomainEvents.ADD_CHILD,
-      childId: childItem.id
+      childId: childItem.entityId
     });
   }
   
@@ -43,7 +43,7 @@ class CompositeCanvasItem extends AbstractCanvasItem {
       this.children.splice(index, 1);
       this._emitChange({
         type: DomainEvents.REMOVE_CHILD,
-        childId: childItem.id
+        childId: childItem.entityId
       });
     }
   }
@@ -72,7 +72,7 @@ class CompositeCanvasItem extends AbstractCanvasItem {
   
   toJSON() {
     return {
-      id: this.id,
+      entityId: this.entityId,
       children: this.children.map(c => c.toJSON())
     };
   }
@@ -81,7 +81,7 @@ class CompositeCanvasItem extends AbstractCanvasItem {
     super.updateFromJSON(json);
     if (json.children) {
       this.children = json.children.map(childJson => {
-        const existing = this.children.find(c => c.id === childJson.id);
+        const existing = this.children.find(c => c.entityId === childJson.entityId);
         if (existing) {
           existing.updateFromJSON(childJson);
           return existing;

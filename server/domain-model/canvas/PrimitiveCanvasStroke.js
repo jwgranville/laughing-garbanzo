@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T04:01:00+00:00
+ * @date 2026-02-25T05:00:35+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -11,8 +11,8 @@ const AbstractCanvasItem = require('./AbstractCanvasItem');
 const { DomainEvents } = require('../events');
 
 class PrimitiveCanvasStroke extends AbstractCanvasItem {
-  constructor(id, stroke) {
-    super(id);
+  constructor(entityId, stroke) {
+    super(entityId);
     this.stroke = stroke;
   }
   
@@ -36,7 +36,7 @@ class PrimitiveCanvasStroke extends AbstractCanvasItem {
   
   render(ctx) {
     ctx.strokeStyle = this.stroke.color || 'black';
-    ctx.lineWidth = this.stroke.width || 1;
+    ctx.lineWentityIdth = this.stroke.wentityIdth || 1;
     ctx.beginPath();
     ctx.moveTo(this.stroke.x1, this.stroke.y1);
     ctx.lineTo(this.stroke.x2, this.stroke.y2);
@@ -44,7 +44,7 @@ class PrimitiveCanvasStroke extends AbstractCanvasItem {
   }
   
   toJSON() {
-    return { id: this.id, stroke: { ...this.stroke } };
+    return { entityId: this.entityId, stroke: { ...this.stroke } };
   }
 }
 

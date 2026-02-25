@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T04:19:27+00:00
+ * @date 2026-02-25T19:01:17+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -35,8 +35,8 @@ describe('WebSocket broadcast behavior', () => {
       const data = JSON.parse(msg);
       if (data.type !== DomainEvents.UPDATE_TEXT) return;
       expect(data).toMatchObject({
-        objId: 'text-1',
         type: DomainEvents.UPDATE_TEXT,
+        entityId: 'text-1',
         value: 'shared'
       });
       received++;
@@ -53,7 +53,7 @@ describe('WebSocket broadcast behavior', () => {
     clientA.on('open', () => {
       clientA.send(JSON.stringify({
         command: Commands.UPDATE_TEXT,
-        objId: 'text-1',
+        entityId: 'text-1',
         value: 'shared'
       }));
     });

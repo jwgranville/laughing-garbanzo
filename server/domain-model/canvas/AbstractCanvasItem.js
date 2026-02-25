@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-21T22:30:32+00:00
+ * @date 2026-02-25T04:52:07+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -10,11 +10,11 @@
 const DomainObject = require('../DomainObject');
 
 class AbstractCanvasItem extends DomainObject {
-  constructor(id) {
+  constructor(entityId) {
     if (new.target === AbstractCanvasItem) {
       throw new TypeError('Cannot instantiate AbstractCanvasItem directly');
     }
-    super(id);
+    super(entityId);
   }
   
   addChild(item) {

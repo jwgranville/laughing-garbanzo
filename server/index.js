@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T02:30:02+00:00
+ * @date 2026-02-25T06:40:55+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -35,9 +35,9 @@ const stroke = new PrimitiveCanvasStroke(
 );
 appState.addItem(stroke);
 appState.subscribe(event => {
-  const item = appState.getItem(event.itemId);
+  const item = appState.getItem(event.entityId);
   if (item) {
-    session._broadcast(event.itemId, event);
+    session._broadcast(event.entityId, event);
   }
 });
 for (const item of appState.getAllItems()) {

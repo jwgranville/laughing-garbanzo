@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T04:19:49+00:00
+ * @date 2026-02-25T18:51:44+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -21,7 +21,7 @@ function createWebSocketServer(server, session, appState) {
       appState.subscribe(event => {
         if (event.type === DomainEvents.STATE_INIT) {
           ws.send(JSON.stringify({
-            objId: event.itemId,
+            entityId: event.entityId,
             type: event.type,
             state: event.payload
           }));
@@ -39,7 +39,7 @@ function createWebSocketServer(server, session, appState) {
       }
       
       if (!appState) return;
-      const item = data.objId ? appState.getItem(data.objId) : null;
+      const item = data.entityId ? appState.getItem(data.entityId) : null;
       if (!item) return;
       switch (data.command) {
         case Commands.UPDATE_TEXT:
