@@ -1,13 +1,13 @@
 /**
  * @author Joe Granville
- * @date 2026-01-24T02:15:27+00:00
+ * @date 2026-02-25T02:33:31+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const Session = require('../../server/domain-model/Session');
+const Session = require('../../server/application/Session');
 const TextItem = require('../../server/domain-model/TextItem');
 const { DomainEvents } = require('../../server/domain-model/events');
 

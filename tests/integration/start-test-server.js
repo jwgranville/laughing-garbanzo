@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T03:06:30+00:00
+ * @date 2026-02-25T02:32:20+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -12,8 +12,8 @@ const { createHTTPServer } = require('../../server/http');
 const { createWebSocketServer } = require('../../server/websocket');
 const { findProjectRoot } = require('../../infrastructure/findProjectRoot');
 
+const Session = require('../../server/application/Session');
 const AppState = require('../../server/domain-model/AppState');
-const Session = require('../../server/domain-model/Session');
 const TextItem = require('../../server/domain-model/TextItem');
 
 const projectRoot = findProjectRoot();

@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-01-23T01:27:07+00:00
+ * @date 2026-02-25T02:30:02+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -15,8 +15,8 @@ const { createWebSocketServer } = require('./websocket');
 const { findProjectRoot } = require(path.join(__dirname, '..', 'infrastructure', 'findProjectRoot'));
 const { getExternalIPAddresses } = require(path.join(__dirname, '..', 'infrastructure', 'network'));
 
+const Session = require('./application/Session');
 const AppState = require('./domain-model/AppState');
-const Session = require('./domain-model/Session');
 const TextItem = require('./domain-model/TextItem');
 const PrimitiveCanvasStroke = require('./domain-model/canvas/PrimitiveCanvasStroke');
 
