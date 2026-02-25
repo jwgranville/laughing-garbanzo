@@ -41,7 +41,7 @@
     const input = document.getElementById('text');
     input.addEventListener('input', e => {
       ws.send(JSON.stringify({
-        command: COMMAND.UPDATE_TEXT,
+        command: Commands.UPDATE_TEXT,
         entityId: 'text-1',
         value: e.target.value
       }));
