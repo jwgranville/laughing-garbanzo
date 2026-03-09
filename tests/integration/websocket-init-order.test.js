@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T18:59:29+00:00
+ * @date 2026-03-09T21:55:18+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,7 +8,7 @@
  */
 
 const WebSocket = require('ws');
-const { DomainEvents, Commands } = require('../../server/domain-model/events');
+const { DomainEvents, Commands } = require('../../shared/domain-events');
 const server = require('./start-test-server');
 
 let httpServer;

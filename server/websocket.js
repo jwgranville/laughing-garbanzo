@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T18:51:44+00:00
+ * @date 2026-03-09T21:52:59+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -9,7 +9,7 @@
 
 const WebSocket = require('ws');
 
-const { DomainEvents, Commands } = require('./domain-model/events');
+const { DomainEvents, Commands } = require('../shared/domain-events');
 
 function createWebSocketServer(server, session, appState) {
   const webSocketServer = new WebSocket.Server({ server });

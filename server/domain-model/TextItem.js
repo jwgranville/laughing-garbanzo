@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T06:39:16+00:00
+ * @date 2026-03-09T21:50:36+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,7 +8,7 @@
  */
 
 const DomainObject = require('./DomainObject');
-const { DomainEvents } = require('./events');
+const { DomainEvents } = require('../../shared/domain-events');
 
 class TextItem extends DomainObject {
   constructor(entityId, initialText = '') {

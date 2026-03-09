@@ -9,7 +9,7 @@
 
 const DomainObject = require('./DomainObject');
 const Entity = require('./Entity');
-const { DomainEvents } = require('./events');
+const { DomainEvents } = require('../../shared/domain-events');
 
 class AppState extends Entity {
   constructor(entityId, initialState = null) {
