@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T23:02:59+00:00
+ * @date 2026-03-10T20:21:24+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -8,42 +8,52 @@
  */
 
 import WebSocket from 'ws';
+import {test, describe, before, after } from 'node:test';
+import assert from 'node:assert/strict';
 
 import { DomainEvents, Commands } from '../../shared/domain-events.js';
 import server from './start-test-server.js';
 
 let httpServer;
 
-beforeAll(done => {
+before(done => {
   httpServer = server.listen(0, done);
 });
 
-afterAll(done => {
+after(done => {
   httpServer.close(done);
 });
 
 describe('WebSocket broadcast behavior', () => {
-  test('multiple WebSocket clients receive the same message', done => {
+  test('multiple WebSocket clients receive the same message', (t, done) => {
     const port = httpServer.address().port;
     const url = `ws://localhost:${port}`;
     
     const clientA = new WebSocket(url);
     const clientB = new WebSocket(url);
     
+    t.after(() => {
+      clientA.close();
+      clientB.close();
+    });
+    
     let received = 0;
     
     function check(msg) {
       const data = JSON.parse(msg);
       if (data.type !== DomainEvents.UPDATE_TEXT) return;
-      expect(data).toMatchObject({
+      assert.deepEqual({
+        type: data.type,
+        entityId: data.entityId,
+        value: data.value
+      },
+      {
         type: DomainEvents.UPDATE_TEXT,
         entityId: 'text-1',
         value: 'shared'
       });
       received++;
       if (received === 2) {
-        clientA.close();
-        clientB.close();
         done();
       }
     }

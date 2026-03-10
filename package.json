@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node ./server",
     "dev": "nodemon ./server",
-    "test": "jest"
+    "test": "node --test"
   },
   "author": "Joe Granville",
   "license": "MIT",

@@ -1,11 +1,14 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T23:04:03+00:00
+ * @date 2026-03-10T20:04:44+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
+
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
 
 import CompositeCanvasItem from '../../server/domain-model/canvas/CompositeCanvasItem.js';
 import AbstractCanvasItem from '../../server/domain-model/canvas/AbstractCanvasItem.js';
@@ -36,7 +39,7 @@ class MockPrimitive extends AbstractCanvasItem {
   }
 }
 
-describe('CompositeCanvasItem basic opeartions', () => {
+describe('CompositeCanvasItem basic operations', () => {
   test('can add and remove children', () => {
     const composite = new CompositeCanvasItem('composite-1');
     const child1 = new MockPrimitive('child-1');
@@ -45,12 +48,12 @@ describe('CompositeCanvasItem basic opeartions', () => {
     composite.addChild(child1);
     composite.addChild(child2);
     
-    expect(composite.children).toContain(child1);
-    expect(composite.children).toContain(child2);
+    assert.ok(composite.children.includes(child1));
+    assert.ok(composite.children.includes(child2));
     
     composite.removeChild(child1);
-    expect(composite.children).not.toContain(child1);
-    expect(composite.children).toContain(child2);
+    assert.ok(!composite.children.includes(child1));
+    assert.ok(composite.children.includes(child2));
   });
   
   test('move propagates to children', () => {
@@ -63,8 +66,8 @@ describe('CompositeCanvasItem basic opeartions', () => {
     
     composite.move(9, 10);
     
-    expect(child1.position).toEqual({ x: 9, y: 10 });
-    expect(child2.position).toEqual({ x: 9, y: 10 });
+    assert.deepEqual(child1.position, { x: 9, y: 10 });
+    assert.deepEqual(child2.position, { x: 9, y: 10 });
   });
   
   test('child events propagate to composite', () => {
@@ -78,8 +81,13 @@ describe('CompositeCanvasItem basic opeartions', () => {
     
     child.move(3, 4);
     
-    expect(compositeEvents).toHaveLength(1);
-    expect(compositeEvents[0]).toMatchObject({
+    assert.equal(compositeEvents.length, 1);
+    assert.deepEqual({
+      type: compositeEvents[0].type,
+      childId: compositeEvents[0].childId,
+      childEvent: compositeEvents[0].childEvent
+    },
+    {
       type: DomainEvents.CHILD_CHANGED,
       childId: 'child-1',
       childEvent: {
@@ -99,8 +107,15 @@ describe('CompositeCanvasItem basic opeartions', () => {
     
     composite.addChild(child);
     
-    expect(events).toHaveLength(1);
-    expect(events[0]).toMatchObject({ type: DomainEvents.ADD_CHILD, childId: 'child-1'});
+    assert.equal(events.length, 1);
+    assert.deepEqual({
+      type: events[0].type,
+      childId: events[0].childId
+    },
+    {
+      type: DomainEvents.ADD_CHILD,
+      childId: 'child-1'
+    });
   });
   
   test('composite emits move events when moved', () => {
@@ -115,6 +130,6 @@ describe('CompositeCanvasItem basic opeartions', () => {
     composite.move(1, 2);
     
     const moveEvent = events.find(e => e.type === DomainEvents.MOVE);
-    expect(moveEvent).toMatchObject({ dx: 1, dy: 2 });
+    assert.deepEqual({ dx: moveEvent.dx, dy: moveEvent.dy }, { dx: 1, dy: 2 });
   });
 });
