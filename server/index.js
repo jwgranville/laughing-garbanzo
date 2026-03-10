@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T05:02:08+00:00
+ * @date 2026-03-10T22:40:58+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -16,6 +16,7 @@ import { findProjectRoot } from '../infrastructure/findProjectRoot.js';
 import { getExternalIPAddresses } from '../infrastructure/network.js';
 
 import Session from './application/Session.js';
+import AppContext from './application/AppContext.js';
 import AppState from './domain-model/AppState.js';
 import TextItem from './domain-model/TextItem.js';
 import PrimitiveCanvasStroke from './domain-model/canvas/PrimitiveCanvasStroke.js';
@@ -27,6 +28,7 @@ const server = http.createServer(app);
 
 const appState = new AppState('main-state');
 const session = new Session('session-1');
+const context = new AppContext(appState, session);
 const textItem = new TextItem('text-1', '');
 appState.addItem(textItem);
 const stroke = new PrimitiveCanvasStroke(
@@ -34,15 +36,6 @@ const stroke = new PrimitiveCanvasStroke(
   { x1: 100, y1: 100, x2: 200, y2: 200, color: 'black', width: 2 }
 );
 appState.addItem(stroke);
-appState.subscribe(event => {
-  const item = appState.getItem(event.entityId);
-  if (item) {
-    session._broadcast(event.entityId, event);
-  }
-});
-for (const item of appState.getAllItems()) {
-  session.addItem(item);
-}
 
 createWebSocketServer(server, session, appState);
 
