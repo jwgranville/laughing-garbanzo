@@ -1,16 +1,19 @@
 /**
  * @author Joe Granville
- * @date 2026-01-20T16:12:21+00:00
+ * @date 2026-03-10T04:54:36+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-function findProjectRoot(startDir = __dirname) {
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export function findProjectRoot(startDir = dirname) {
   let dir = startDir;
   
   while (!fs.existsSync(path.join(dir, 'package.json'))) {
@@ -23,5 +26,3 @@ function findProjectRoot(startDir = __dirname) {
   
   return dir;
 }
-
-module.exports = { findProjectRoot };

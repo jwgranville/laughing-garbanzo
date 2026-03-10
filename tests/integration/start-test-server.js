@@ -1,20 +1,21 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T02:32:20+00:00
+ * @date 2026-03-09T23:01:17+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const http = require('http');
-const { createHTTPServer } = require('../../server/http');
-const { createWebSocketServer } = require('../../server/websocket');
-const { findProjectRoot } = require('../../infrastructure/findProjectRoot');
+import http from 'http';
 
-const Session = require('../../server/application/Session');
-const AppState = require('../../server/domain-model/AppState');
-const TextItem = require('../../server/domain-model/TextItem');
+import { createHTTPServer } from '../../server/http.js';
+import { createWebSocketServer } from '../../server/websocket.js';
+import { findProjectRoot } from '../../infrastructure/findProjectRoot.js';
+
+import Session from '../../server/application/Session.js';
+import AppState from '../../server/domain-model/AppState.js';
+import TextItem from'../../server/domain-model/TextItem.js';
 
 const projectRoot = findProjectRoot();
 const app = createHTTPServer({ projectRoot });
@@ -29,4 +30,4 @@ session.addItem(text);
 
 createWebSocketServer(server, session, appState);
 
-module.exports = server;
+export default server;

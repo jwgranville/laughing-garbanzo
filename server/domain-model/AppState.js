@@ -1,17 +1,17 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T18:41:31+00:00
+ * @date 2026-03-09T22:40:50+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const DomainObject = require('./DomainObject');
-const Entity = require('./Entity');
-const { DomainEvents } = require('../../shared/domain-events');
+import DomainObject from './DomainObject.js';
+import Entity from './Entity.js';
+import { DomainEvents } from '../../shared/domain-events.js';
 
-class AppState extends Entity {
+export default class AppState extends Entity {
   constructor(entityId, initialState = null) {
     super(entityId);
     this.items = new Map();
@@ -107,5 +107,3 @@ class AppState extends Entity {
     }
   }
 }
-
-module.exports = AppState;

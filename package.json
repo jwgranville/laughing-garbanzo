@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A game for learning state synchronization and the canvas in JavaScript",
   "main": "./server",
+  "type": "module",
   "scripts": {
     "start": "node ./server",
     "dev": "nodemon ./server",

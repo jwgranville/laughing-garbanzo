@@ -1,18 +1,18 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T21:52:59+00:00
+ * @date 2026-03-10T05:00:08+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const WebSocket = require('ws');
+import { WebSocketServer } from 'ws';
 
-const { DomainEvents, Commands } = require('../shared/domain-events');
+import { DomainEvents, Commands } from '../shared/domain-events.js';
 
-function createWebSocketServer(server, session, appState) {
-  const webSocketServer = new WebSocket.Server({ server });
+export function createWebSocketServer(server, session, appState) {
+  const webSocketServer = new WebSocketServer({ server });
   
   webSocketServer.on('connection', (ws) => {
     session.subscribe(ws);
@@ -56,5 +56,3 @@ function createWebSocketServer(server, session, appState) {
   
   return webSocketServer;
 }
-
-module.exports = { createWebSocketServer };

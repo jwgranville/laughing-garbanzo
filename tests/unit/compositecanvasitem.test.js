@@ -1,15 +1,15 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T21:54:37+00:00
+ * @date 2026-03-09T23:04:03+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const CompositeCanvasItem = require('../../server/domain-model/canvas/CompositeCanvasItem');
-const AbstractCanvasItem = require('../../server/domain-model/canvas/AbstractCanvasItem');
-const { DomainEvents } = require('../../shared/domain-events');
+import CompositeCanvasItem from '../../server/domain-model/canvas/CompositeCanvasItem.js';
+import AbstractCanvasItem from '../../server/domain-model/canvas/AbstractCanvasItem.js';
+import { DomainEvents } from '../../shared/domain-events.js';
 
 class MockPrimitive extends AbstractCanvasItem {
   constructor(id) {

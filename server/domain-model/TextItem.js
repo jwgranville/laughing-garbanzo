@@ -1,16 +1,16 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T21:50:36+00:00
+ * @date 2026-03-09T22:45:14+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const DomainObject = require('./DomainObject');
-const { DomainEvents } = require('../../shared/domain-events');
+import DomainObject from './DomainObject.js';
+import { DomainEvents } from '../../shared/domain-events.js';
 
-class TextItem extends DomainObject {
+export default class TextItem extends DomainObject {
   constructor(entityId, initialText = '') {
     super(entityId);
     this.text = initialText;
@@ -33,5 +33,3 @@ class TextItem extends DomainObject {
     }
   }
 }
-
-module.exports = TextItem;

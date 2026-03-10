@@ -7,10 +7,10 @@
  * @status Proof-of-concept
  */
 
-const AbstractCanvasItem = require('./AbstractCanvasItem');
-const { DomainEvents } = require('../../../shared/domain-events');
+import AbstractCanvasItem from './AbstractCanvasItem.js';
+import { DomainEvents } from '../../../shared/domain-events.js';
 
-class PrimitiveCanvasStroke extends AbstractCanvasItem {
+export default class PrimitiveCanvasStroke extends AbstractCanvasItem {
   constructor(entityId, stroke) {
     super(entityId);
     this.stroke = stroke;
@@ -47,5 +47,3 @@ class PrimitiveCanvasStroke extends AbstractCanvasItem {
     return { entityId: this.entityId, stroke: { ...this.stroke } };
   }
 }
-
-module.exports = PrimitiveCanvasStroke;

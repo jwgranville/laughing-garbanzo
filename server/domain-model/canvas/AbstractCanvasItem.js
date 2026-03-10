@@ -1,15 +1,15 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T04:52:07+00:00
+ * @date 2026-03-09T22:41:17+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const DomainObject = require('../DomainObject');
+import DomainObject from '../DomainObject.js';
 
-class AbstractCanvasItem extends DomainObject {
+export default class AbstractCanvasItem extends DomainObject {
   constructor(entityId) {
     if (new.target === AbstractCanvasItem) {
       throw new TypeError('Cannot instantiate AbstractCanvasItem directly');
@@ -29,5 +29,3 @@ class AbstractCanvasItem extends DomainObject {
     throw new Error('render must be implemented in subclass');
   }
 }
-
-module.exports = AbstractCanvasItem;

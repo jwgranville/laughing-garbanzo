@@ -1,15 +1,17 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T21:53:51+00:00
+ * @date 2026-03-10T04:48:30+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const Session = require('../../server/application/Session');
-const TextItem = require('../../server/domain-model/TextItem');
-const { DomainEvents } = require('../../shared/domain-events');
+import { jest } from '@jest/globals';
+
+import Session from '../../server/application/Session.js';
+import TextItem from '../../server/domain-model/TextItem.js';
+import { DomainEvents } from '../../shared/domain-events.js';
 
 describe('Session domain object synchronization', () => {
   test('broadcasts TextItem updates to all listeners', () => {

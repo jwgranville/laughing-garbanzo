@@ -1,15 +1,15 @@
 /**
  * @author Joe Granville
- * @date 2026-01-20T16:55:00+00:00
+ * @date 2026-03-09T22:51:43+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const os = require('os');
+import os from 'os';
 
-function getExternalIPAddresses() {
+export function getExternalIPAddresses() {
   const interfaces = os.networkInterfaces();
   const results = [];
   
@@ -27,5 +27,3 @@ function getExternalIPAddresses() {
   
   return results;
 }
-
-module.exports = { getExternalIPAddresses };

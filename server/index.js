@@ -1,24 +1,24 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T06:40:55+00:00
+ * @date 2026-03-10T05:02:08+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const http = require('http');
-const path = require('path');
+import http from 'http';
+import path from 'path';
 
-const { createHTTPServer } = require('./http');
-const { createWebSocketServer } = require('./websocket');
-const { findProjectRoot } = require(path.join(__dirname, '..', 'infrastructure', 'findProjectRoot'));
-const { getExternalIPAddresses } = require(path.join(__dirname, '..', 'infrastructure', 'network'));
+import { createHTTPServer } from './http.js';
+import { createWebSocketServer } from './websocket.js';
+import { findProjectRoot } from '../infrastructure/findProjectRoot.js';
+import { getExternalIPAddresses } from '../infrastructure/network.js';
 
-const Session = require('./application/Session');
-const AppState = require('./domain-model/AppState');
-const TextItem = require('./domain-model/TextItem');
-const PrimitiveCanvasStroke = require('./domain-model/canvas/PrimitiveCanvasStroke');
+import Session from './application/Session.js';
+import AppState from './domain-model/AppState.js';
+import TextItem from './domain-model/TextItem.js';
+import PrimitiveCanvasStroke from './domain-model/canvas/PrimitiveCanvasStroke.js';
 
 const projectRoot = findProjectRoot();
 
@@ -50,11 +50,11 @@ const PORT = process.env.PORT || 3000;
 const addresses = getExternalIPAddresses();
 server.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
-  addresses.forEach(({ interface, address, family }) => {
+  addresses.forEach(({ iface, address, family }) => {
     if (family === 'IPv4') {
-      console.log(`  ${interface}: http://${address}:${PORT}`);
+      console.log(`  ${iface}: http://${address}:${PORT}`);
     } else {
-      console.log(`  ${interface}: ${address}`);
+      console.log(`  ${iface}: ${address}`);
     }
   });
 });

@@ -1,16 +1,16 @@
 /**
  * @author Joe Granville
- * @date 2026-03-09T21:51:35+00:00
+ * @date 2026-03-09T22:42:18+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-const AbstractCanvasItem = require('./AbstractCanvasItem');
-const { DomainEvents } = require('../../../shared/domain-events');
+import AbstractCanvasItem from './AbstractCanvasItem.js';
+import { DomainEvents } from '../../../shared/domain-events.js';
 
-class CompositeCanvasItem extends AbstractCanvasItem {
+export default class CompositeCanvasItem extends AbstractCanvasItem {
   constructor(entityId) {
     super(entityId);
     this.children = [];
@@ -91,5 +91,3 @@ class CompositeCanvasItem extends AbstractCanvasItem {
     }
   }
 }
-
-module.exports = CompositeCanvasItem;

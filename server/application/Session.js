@@ -1,13 +1,13 @@
 /**
  * @author Joe Granville
- * @date 2026-02-25T06:19:38+00:00
+ * @date 2026-03-09T22:38:50+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
  * @status Proof-of-concept
  */
 
-class Session {
+export default class Session {
   constructor(sessionId) {
     this.sessionId = sessionId;
     this.domainObjects = new Map();
@@ -28,5 +28,3 @@ class Session {
     this.subscribers.forEach(client => client.send(message));
   }
 }
-
-module.exports = Session;
