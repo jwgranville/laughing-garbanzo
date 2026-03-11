@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T05:00:08+00:00
+ * @date 2026-03-11T17:12:37+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -9,25 +9,25 @@
 
 import { WebSocketServer } from 'ws';
 
+import AppContext from '../server/application/AppContext.js';
+
 import { DomainEvents, Commands } from '../shared/domain-events.js';
 
-export function createWebSocketServer(server, session, appState) {
+export function createWebSocketServer(server, context) {
   const webSocketServer = new WebSocketServer({ server });
   
   webSocketServer.on('connection', (ws) => {
-    session.subscribe(ws);
+    context.subscribeClient(ws);
     
-    if (appState) {
-      appState.subscribe(event => {
-        if (event.type === DomainEvents.STATE_INIT) {
-          ws.send(JSON.stringify({
-            entityId: event.entityId,
-            type: event.type,
-            state: event.payload
-          }));
-        }
-      });
-    }
+    context.subscribeToState(event => {
+      if (event.type === DomainEvents.STATE_INIT) {
+        ws.send(JSON.stringify({
+          entityId: event.entityId,
+          type: event.type,
+          state: event.payload
+        }));
+      }
+    });
     
     ws.on('message', (msg) => {
       let data;
@@ -38,8 +38,7 @@ export function createWebSocketServer(server, session, appState) {
         return;
       }
       
-      if (!appState) return;
-      const item = data.entityId ? appState.getItem(data.entityId) : null;
+      const item = data.entityId ? context.getItem(data.entityId) : null;
       if (!item) return;
       switch (data.command) {
         case Commands.UPDATE_TEXT:

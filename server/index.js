@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-11T04:07:29+00:00
+ * @date 2026-03-11T17:15:39+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -37,7 +37,7 @@ const stroke = new PrimitiveCanvasStroke(
 );
 context.addItem(stroke);
 
-createWebSocketServer(server, session, appState);
+createWebSocketServer(server, context);
 
 const PORT = process.env.PORT || 3000;
 const addresses = getExternalIPAddresses();

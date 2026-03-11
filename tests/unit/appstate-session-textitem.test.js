@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T23:00:58+00:00
+ * @date 2026-03-11T17:24:48+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -22,7 +22,7 @@ describe('Domain object synchronization across AppState and Session', () => {
     const session = new Session('session-1');
     const context = new AppContext(appState, session);
     const text = new TextItem('text-1', 'hello');
-    appState.addItem(text);
+    context.addItem(text);
     
     const clientA = { send: (...args) => clientA.send.calls.push(args) };
     clientA.send.calls = [];
@@ -32,8 +32,8 @@ describe('Domain object synchronization across AppState and Session', () => {
     clientA.send.calls = [];
     clientB.send.calls = [];
     
-    session.subscribe(clientA);
-    session.subscribe(clientB);
+    context.subscribeClient(clientA);
+    context.subscribeClient(clientB);
     
     text.updateText('world');
     

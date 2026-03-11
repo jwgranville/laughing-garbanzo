@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T22:42:10+00:00
+ * @date 2026-03-11T17:15:12+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -27,8 +27,8 @@ const session = new Session('test-session');
 const context = new AppContext(appState, session);
 
 const text = new TextItem('text-1', 'initial');
-appState.addItem(text);
+context.addItem(text);
 
-createWebSocketServer(server, session, appState);
+createWebSocketServer(server, context);
 
 export default server;
