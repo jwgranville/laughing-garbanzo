@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-11T17:12:37+00:00
+ * @date 2026-03-11T18:12:04+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -19,7 +19,7 @@ export function createWebSocketServer(server, context) {
   webSocketServer.on('connection', (ws) => {
     context.subscribeClient(ws);
     
-    context.subscribeToState(event => {
+    context.registerStateCallback(event => {
       if (event.type === DomainEvents.STATE_INIT) {
         ws.send(JSON.stringify({
           entityId: event.entityId,

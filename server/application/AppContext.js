@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-11T17:30:35+00:00
+ * @date 2026-03-11T18:09:49+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -33,11 +33,11 @@ export default class AppContext {
     return this.state.getAllItems();
   }
   
-  subscribeToState(callback) {
+  registerStateCallback(callback) {
     this.state.subscribe(callback);
   }
   
-  unsubscribeFromState(callback) {
+  unregisterStateCallback(callback) {
     this.state.unsubscribe(callback);
   }
   
