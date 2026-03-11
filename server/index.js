@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T22:40:58+00:00
+ * @date 2026-03-11T04:07:29+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -30,12 +30,12 @@ const appState = new AppState('main-state');
 const session = new Session('session-1');
 const context = new AppContext(appState, session);
 const textItem = new TextItem('text-1', '');
-appState.addItem(textItem);
+context.addItem(textItem);
 const stroke = new PrimitiveCanvasStroke(
   'stroke-1',
   { x1: 100, y1: 100, x2: 200, y2: 200, color: 'black', width: 2 }
 );
-appState.addItem(stroke);
+context.addItem(stroke);
 
 createWebSocketServer(server, session, appState);
 

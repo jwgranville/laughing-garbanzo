@@ -1,6 +1,6 @@
 /**
  * @author Joe Granville
- * @date 2026-03-10T22:26:33+00:00
+ * @date 2026-03-11T03:51:56+00:00
  * @license MIT
  * @version 0.1.0
  * @email 874605+jwgranville@users.noreply.github.com
@@ -15,5 +15,33 @@ export default class AppContext {
     this.state = state;
     this.session = session;
     this.state.subscribe(event => this.session.broadcast(event));
+  }
+  
+  addItem(item) {
+    this.state.addItem(item);
+  }
+  
+  removeItem(entityId) {
+    this.state.removeItem(entityId);
+  }
+  
+  getItem(entityId) {
+    return this.state.getItem(entityId);
+  }
+  
+  getAllItems() {
+    return this.state.getAllItems();
+  }
+  
+  subscribeClient(client) {
+    this.session.subscribe(client);
+  }
+  
+  unsubscribeClient(client) {
+    this.session.unsubscribe(client);
+  }
+  
+  snapshot() {
+    return this.state.snapshot();
   }
 }
